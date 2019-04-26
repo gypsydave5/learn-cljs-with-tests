@@ -2,7 +2,9 @@
 
 (defn hello-world
   ([] (hello-world "world"))
-  ([name] (str "Hello, " name "!")))
+  ([name] (if (empty? name)
+            (hello-world)
+            (str "Hello, " name "!"))))
 
 (defn create-text-input []
   (let [input (.createElement js/document "input")]
@@ -16,18 +18,20 @@
     (.addEventListener button "click" on-click)
     button))
 
-(defn create-on-click [text-box]
+(defn create-on-click [text-box text-fn]
   (fn [event]
     (.preventDefault event)
-    (js/alert (if (empty? (.-value text-box))
-                (hello-world)
-                (hello-world (.-value text-box))))))
+    (text-fn (.-value text-box))))
 
-(defn -main [& args]
+(defn create-form [on-click-text-handler]
   (let [text-input (create-text-input)
-        button (create-button "Say Hello!" (create-on-click text-input))
-        main (.querySelector js/document "main")
+        button (create-button "Say Hello!" (create-on-click text-input on-click-text-handler))
         form (.createElement js/document "form")]
     (.appendChild form text-input)
     (.appendChild form button)
+    form))
+
+(defn -main [& args]
+  (let [form (create-form #(js/alert (hello-world %1)))
+        main (.querySelector js/document "main")]
     (.appendChild main form)))

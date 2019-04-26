@@ -227,7 +227,7 @@ using in JavaScript are available in ClojureScript. Experiment with using them
 all to create a few different elements on a webpage. Most of the JavaScript
 primitives translate pretty directly over to a ClojureScript primitive - one
 gotcha is the `HTMLCollection` interface (as it is in JavaScript), as returned
-by methods such as `getElementsByTagName`. To coerce this into a ClojureScript
+by methods such as `getElementsByTagName`. To turn this into a ClojureScript
 sequence, use the `array-seq` function.
 
 Have fun!
